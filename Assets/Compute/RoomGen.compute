@@ -1,0 +1,32 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel RecalculateVerts
+
+
+SamplerState samplerinput;
+struct Vertex
+{
+    float3 position;
+
+};
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+
+uint texSize;
+uint meshSize;
+RWStructuredBuffer<Vertex> mesh;
+Texture2D<float4> heightMap;
+
+
+[numthreads(16,1,1)]
+void RecalculateVerts (uint3 dtid : SV_DispatchThreadID)
+{
+	
+	uint2 xy = int2((dtid.x % (meshSize+1))*(texSize/(meshSize)) ,(dtid.x / meshSize)*(texSize/meshSize)); 
+	//uint xy = dtid.x*dtid.y;
+	mesh[dtid.x].position = float3(mesh[dtid.x].position.x,  20.0f*heightMap[xy].g, mesh[dtid.x].position.z  );
+
+}
+
+
+//*(texSize/meshSize)  + 50*heightMap[dtid.xy*(1024/250)].r

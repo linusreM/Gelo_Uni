@@ -1,0 +1,65 @@
+﻿// test.compute
+
+#pragma kernel FillWithRed
+#pragma kernel MakeHill
+#pragma kernel MakeHill4
+#pragma kernel Clear
+
+SamplerState samplerinput;
+RWTexture2D<float4> res;
+Texture2D<float4> buf;
+float divx, divy;
+float fwd_x, fwd_y, bck_x, bck_y, lft_x, lft_y, rgh_x, rgh_y;
+float pointx, pointy;
+float size;
+float strength;
+
+[numthreads(4,4,1)]
+void FillWithRed (uint3 dtid : SV_DispatchThreadID)
+{
+	
+	
+    res[dtid.xy] = float4(1,1/(float(dtid.x)/divx),1/(float(dtid.y)/divy),1);
+
+
+}
+
+
+[numthreads(4,4,1)]
+void Clear (uint3 dtid : SV_DispatchThreadID)
+{
+	
+	
+    res[dtid.xy] = float4(0,0,0,1);
+
+
+}
+
+
+[numthreads(4,4,1)]
+void MakeHill (uint3 dtid : SV_DispatchThreadID)
+{
+	
+	float dist = 1/(exp(size*sqrt(((float(dtid.x-pointx)) * (float(dtid.x)-pointx)) + ((float(dtid.y)-pointy) * (float(dtid.y)-pointy))))*strength);
+	res[dtid.xy] =  float4(buf.Load(dtid).r + dist,buf.Load(dtid).r + buf.Load(dtid).g + dist - 1,buf.Load(dtid).r + buf.Load(dtid).g + buf.Load(dtid).b + dist - 2,0.75);; 
+
+
+}
+
+[numthreads(4,4,1)]
+void MakeHill4 (uint3 dtid : SV_DispatchThreadID)
+{
+	
+	float dist4 = (1/(exp(size*sqrt(((float(dtid.x-fwd_x)) * (float(dtid.x)-fwd_x)) 
+					+((float(dtid.y)-fwd_y) * (float(dtid.y)-fwd_y))))*strength))
+				+(1/(exp(size*sqrt(((float(dtid.x-bck_x)) * (float(dtid.x)-bck_x)) 
+					+((float(dtid.y)-bck_y) * (float(dtid.y)-bck_y))))*strength))
+				+(1/(exp(size*sqrt(((float(dtid.x-lft_x)) * (float(dtid.x)-lft_x))
+					+((float(dtid.y)-lft_y) * (float(dtid.y)-lft_y))))*strength))
+				+(1/(exp(size*sqrt(((float(dtid.x-rgh_x)) * (float(dtid.x)-rgh_x)) 
+					+((float(dtid.y)-rgh_y) * (float(dtid.y)-rgh_y))))*strength));
+
+	res[dtid.xy] =  float4(buf.Load(dtid).r + dist4,buf.Load(dtid).r + buf.Load(dtid).g + dist4 - 1,buf.Load(dtid).r + buf.Load(dtid).g + buf.Load(dtid).b + dist4 - 2,0.75);; 
+
+
+}
