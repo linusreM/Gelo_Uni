@@ -302,6 +302,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CalcPath.cs" />
     <Compile Include="Assets\Scripts\Compshader.cs" />
+    <Compile Include="Assets\Scripts\CustomCommand.cs" />
     <Compile Include="Assets\Scripts\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\LocalNavMeshBuilder.cs" />
     <Compile Include="Assets\Scripts\move.cs" />

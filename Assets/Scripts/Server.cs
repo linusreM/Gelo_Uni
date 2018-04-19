@@ -123,7 +123,7 @@ public class Server : MonoBehaviour
         }
     }
 
-    public void SendData(string message, string id)
+    public void SendData(string message)
     {
         serve.Connect(lastIPEndpoint.Address, sendPort);
         byte[] byteMessage = Encoding.ASCII.GetBytes(message); 
