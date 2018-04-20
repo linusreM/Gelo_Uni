@@ -22,7 +22,7 @@ public class Server : MonoBehaviour
     public int sendPort;
     
     static public string lastReceivedUDPPacket = "";
-    static public string allReceivedUDPPackets = ""; // clean up this from time to time!
+    static public string allReceivedUDPPackets = ""; //Main container
     static public int unhandledPackets = 0;
     static public string lastRecivedFromIP = "";
     static public IPEndPoint lastIPEndpoint;
@@ -31,28 +31,14 @@ public class Server : MonoBehaviour
     public Vector3 Pos;
     public bool run = true;
 
-    // start from shell
-    //private static void Main()
-    //{
-    //    Server receiveObj = new Server();
-    //    receiveObj.init();
 
-    //    string text = "";
-    //    do
-    //    {
-    //        text = Console.ReadLine();
-    //    }
-    //    while (!text.Equals("exit"));
-    //}
-    // start from unity3d
+
     public void Start()
-    {
-
-        init();
+    { 
+        Init(); //Start UDP receive thread
     }
 
-    // OnGUI
-    void OnGUI()
+    void OnGUI() //Show received network packages, for debugging purposes
     {
         Rect rectObj = new Rect(40, 10, 200, 400);
         GUIStyle style = new GUIStyle();
@@ -63,8 +49,7 @@ public class Server : MonoBehaviour
             , style);
     }
 
-    // init
-    private void init()
+    private void Init()
     {
         Debug.Log("Initializing UDP-Client");
 
@@ -79,11 +64,7 @@ public class Server : MonoBehaviour
     // receive thread
     private void ReceiveData()
     {
-
         client = new UdpClient(port);
-      
-             //TESTKOD!!
-
         while (true)
         {
 
@@ -104,9 +85,6 @@ public class Server : MonoBehaviour
                 // ....
                 allReceivedUDPPackets = allReceivedUDPPackets + text + " ";
                 unhandledPackets += 1;
-
-             
-
             }
             catch (Exception err)
             {
@@ -123,16 +101,14 @@ public class Server : MonoBehaviour
         }
     }
 
-    public void SendData(string message)
+    public void SendData(string message) //Method to send messages from
     {
         serve.Connect(lastIPEndpoint.Address, sendPort);
         byte[] byteMessage = Encoding.ASCII.GetBytes(message); 
         serve.Send(byteMessage, byteMessage.Length);
     }
-
-    // getLatestUDPPacket
-    // cleans up the rest
-    public string getLatestUDPPacket()
+    
+    public string getLatestUDPPacket() //Not really used here
     {
         allReceivedUDPPackets = "";
         return lastReceivedUDPPacket;
