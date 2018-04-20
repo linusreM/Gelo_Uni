@@ -15,15 +15,17 @@ public class move : MonoBehaviour
     public Server server;
     public bool busy = false;
     public bool mapping = true;
+	//public GameObject aruco;
 	public GameObject aruco;
+	public GameObject aruco1;
+
 
 
     //Vector3 basePosition;
 	void Start()
 	{
-		aruco = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		aruco1 = Instantiate (aruco);
 	}
-
     // Update is called once per frame
     void Update()
     {
@@ -58,9 +60,10 @@ public class move : MonoBehaviour
                     qr.transform.localRotation = rotation;
 
                     //cube1.AddComponent<Rigidbody>();
-                    aruco.transform.localScale = new Vector3(7f, 7f, 7f);
-                    aruco.transform.position = qr.transform.position;
-                    aruco.transform.rotation = qr.transform.rotation;
+
+                    //aruco1.transform.localScale = new Vector3(7f, 7f, 7f);
+                    aruco1.transform.position = qr.transform.position;
+                    aruco1.transform.rotation = qr.transform.rotation;
 
                     //Instantiate("Prefabs/cube", new Vector3(float.Parse(splitString[3]), float.Parse(splitString[5]), float.Parse(splitString[4])), Quaternion.identity);
                 }
