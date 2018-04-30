@@ -96,10 +96,13 @@ public class Compshader : MonoBehaviour {
     }
 
 
-    public void RunShader4(Vector2 forward, Vector2 back, Vector2 left, Vector2 right)
+    public void RunShader4(Vector2 forward, Vector2 back, Vector2 left, Vector2 right, float fwdStr, float bckStr, float lftStr, float rghStr)
     {
         int kernelHandle = shader.FindKernel("MakeHill4");
-
+        shader.SetFloat("fwd_str", fwdStr);
+        shader.SetFloat("bck_str", fwdStr);
+        shader.SetFloat("lft_str", fwdStr);
+        shader.SetFloat("rgh_str", fwdStr);
         shader.SetFloat("strength", 1.0f / strength);
         shader.SetFloat("size", 1.0f / size);
         //shader.SetFloat("divx", xdiv);

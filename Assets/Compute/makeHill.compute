@@ -13,6 +13,8 @@ float fwd_x, fwd_y, bck_x, bck_y, lft_x, lft_y, rgh_x, rgh_y;
 float pointx, pointy;
 float size;
 float strength;
+float fwd_str, bck_str, lft_str, rgh_str;
+
 
 [numthreads(4,4,1)]
 void FillWithRed (uint3 dtid : SV_DispatchThreadID)
@@ -50,13 +52,13 @@ void MakeHill (uint3 dtid : SV_DispatchThreadID)
 void MakeHill4 (uint3 dtid : SV_DispatchThreadID)
 {
 	
-	float dist4 = (1/(exp(size*sqrt(((float(dtid.x-fwd_x)) * (float(dtid.x)-fwd_x)) 
+	float dist4 = ((1*fwd_str)/(exp(size*sqrt(((float(dtid.x-fwd_x)) * (float(dtid.x)-fwd_x)) 
 					+((float(dtid.y)-fwd_y) * (float(dtid.y)-fwd_y))))*strength))
-				+(1/(exp(size*sqrt(((float(dtid.x-bck_x)) * (float(dtid.x)-bck_x)) 
+				+((1*bck_str)/(exp(size*sqrt(((float(dtid.x-bck_x)) * (float(dtid.x)-bck_x)) 
 					+((float(dtid.y)-bck_y) * (float(dtid.y)-bck_y))))*strength))
-				+(1/(exp(size*sqrt(((float(dtid.x-lft_x)) * (float(dtid.x)-lft_x))
+				+((1*lft_str)/(exp(size*sqrt(((float(dtid.x-lft_x)) * (float(dtid.x)-lft_x))
 					+((float(dtid.y)-lft_y) * (float(dtid.y)-lft_y))))*strength))
-				+(1/(exp(size*sqrt(((float(dtid.x-rgh_x)) * (float(dtid.x)-rgh_x)) 
+				+((1*rgh_str)/(exp(size*sqrt(((float(dtid.x-rgh_x)) * (float(dtid.x)-rgh_x)) 
 					+((float(dtid.y)-rgh_y) * (float(dtid.y)-rgh_y))))*strength));
 
 	res[dtid.xy] =  float4(buf.Load(dtid).r + dist4,buf.Load(dtid).r + buf.Load(dtid).g + dist4 - 1,buf.Load(dtid).r + buf.Load(dtid).g + buf.Load(dtid).b + dist4 - 2,0.75);; 
