@@ -12,14 +12,20 @@ public class MoveToClickPoint : MonoBehaviour {
 	public Vector3[] corners; 
 	public bool activateFlag;
 	public bool exitFlag;
+	public bool timeFlag;
+	public float time;
+
 
 	void Start() {
 		agent = GetComponent<NavMeshAgent>();
 		agent.updatePosition = false;
-		 
+
+		time = 0;
+		timeFlag = true;
 	}
 
 	void Update() {
+		
 
 		if(Input.GetKeyUp("c")){
 			activateFlag = true;
@@ -31,6 +37,7 @@ public class MoveToClickPoint : MonoBehaviour {
 		
 
 		if (!Mover.busy) {
+			time += Time.deltaTime;
 			
 			if (Input.GetMouseButtonDown (0) && activateFlag) {
 
@@ -52,35 +59,40 @@ public class MoveToClickPoint : MonoBehaviour {
 			}
 
 			if (corners.Length != 0 && cornerCount <= corners.Length - 1) {
-				
-				if (turn) {
-					Debug.Log ("HERE");
-					Debug.Log (corners [cornerCount]);
-					MoveMarker.transform.position = transform.position;
-					MoveMarker.transform.LookAt (corners [cornerCount]);
 
-					float angle = MoveMarker.transform.localEulerAngles.y;
-					if (angle > 180) {
-						angle = angle - 360;
+				if (time > 0.1) {
+					
+					if (turn) {
+						Debug.Log ("HERE");
+						Debug.Log (corners [cornerCount]);
+						MoveMarker.transform.position = transform.position;
+						MoveMarker.transform.LookAt (corners [cornerCount]);
+
+						float angle = MoveMarker.transform.localEulerAngles.y;
+						if (angle > 180) {
+							angle = angle - 360;
+						}
+							
+						Debug.Log (MoveMarker.transform.localEulerAngles.y);
+						string message = "BOT1#" + "TURN#" + angle.ToString () + "$";
+						Debug.Log (message);
+						Mover.busy = true;
+						turn = false;
+						Server.SendData (message);
+						time = 0;
+
+					} else {
+						MoveMarker.transform.position = corners [cornerCount];
+						Debug.Log (MoveMarker.transform.localPosition.z * Mover.divisor);
+						string message = "BOT1#" + "MOVE#" + ((MoveMarker.transform.localPosition.z) * Mover.divisor).ToString () + "$";
+						Debug.Log (message);
+						Mover.busy = true;
+						turn = true;
+						cornerCount++;
+						Server.SendData (message);
+						time = 0;
+
 					}
-						
-					Debug.Log (MoveMarker.transform.localEulerAngles.y);
-					string message = "BOT1#" + "TURN#" + angle.ToString() + "$";
-					Debug.Log (message);
-					Mover.busy = true;
-					turn = false;
-					Server.SendData (message);
-
-				} else {
-					MoveMarker.transform.position = corners [cornerCount];
-					Debug.Log (MoveMarker.transform.localPosition.z * Mover.divisor);
-					string message = "BOT1#" + "MOVE#" + ((MoveMarker.transform.localPosition.z) * Mover.divisor).ToString() + "$";
-					Debug.Log (message);
-					Mover.busy = true;
-					turn = true;
-					cornerCount++;
-					Server.SendData (message);
-
 				}
 			}
 		}
