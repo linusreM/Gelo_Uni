@@ -17,6 +17,8 @@ public class move : MonoBehaviour
     public bool busy = false;
     public bool mapping = true;
 	public bool newMarker = true;
+	public GameObject correctionMarker;
+	public GameObject correctionChild;
 	public GameObject aruco;
 	private List<GameObject> arucos;
 
@@ -61,22 +63,83 @@ public class move : MonoBehaviour
 							}
 					}
 							
-					if (newMarker)  // if unique
-					{ 
-						qr.transform.localPosition = new Vector3(float.Parse(splitString[3]) / divisor, -(float.Parse(splitString[4])) / divisor, (float.Parse(splitString[5]) + 95.0f) / divisor);
+						if (newMarker) {  // if unique
+							qr.transform.localPosition = new Vector3 (float.Parse (splitString [3]) / divisor, -(float.Parse (splitString [4])) / divisor, (float.Parse (splitString [5]) + 95.0f) / divisor);
 
-	                    float xRotation = float.Parse(splitString[6]);
-	                    float yRotation = float.Parse(splitString[7]);
-	                    float zRotation = float.Parse(splitString[8]);
-	                    float theta = (Mathf.Sqrt((xRotation * xRotation) + (yRotation * yRotation) + (zRotation * zRotation)) * (180 / Mathf.PI));
-	                    Vector3 axis = new Vector3(-xRotation, yRotation, -zRotation);
-	                    Quaternion rotation = Quaternion.AngleAxis(theta, axis);
-	                    qr.transform.localRotation = rotation;
+							float xRotation = float.Parse (splitString [6]);
+							float yRotation = float.Parse (splitString [7]);
+							float zRotation = float.Parse (splitString [8]);
+							float theta = (Mathf.Sqrt ((xRotation * xRotation) + (yRotation * yRotation) + (zRotation * zRotation)) * (180 / Mathf.PI));
+							Vector3 axis = new Vector3 (-xRotation, yRotation, -zRotation);
+							Quaternion rotation = Quaternion.AngleAxis (theta, axis);
+							qr.transform.localRotation = rotation;
 
-						arucos.Add (Instantiate(aruco, qr.transform.position, qr.transform.rotation));
-						arucos.Last().GetComponent<Marker>().id = (splitString[2]);
-						
-					}
+							arucos.Add (Instantiate (aruco, qr.transform.position, qr.transform.rotation));
+							arucos.Last ().GetComponent<Marker> ().id = (splitString [2]);
+						} 
+						else {
+							// skapa child på aktuell markör
+							GameObject selectedMarker = arucos.Find(x => x.GetComponent<Marker>().id == splitString[2]);
+							correctionMarker = new GameObject();
+							correctionChild = new GameObject ();
+							//Debug.Log(arucos.Find(x => x.GetComponent<Marker>().id == splitString[2]).transform.position);
+							//correctionMarker.transform.parent = (arucos.Find(x => x.GetComponent<Marker>().id == splitString[2])).transform;
+							//correctionChild = new GameObject ();
+							//correctionChild.transform.parent = correctionMarker.transform;
+							Vector3 newposition = new Vector3 (float.Parse (splitString [3]) / divisor, -(float.Parse (splitString [4])) / divisor, (float.Parse (splitString [5]) + 95.0f) / divisor);
+							correctionMarker.transform.parent = bot.transform;
+							correctionMarker.transform.localPosition = newposition;
+
+
+							float xRotation = float.Parse (splitString [6]);
+							float yRotation = float.Parse (splitString [7]);
+							float zRotation = float.Parse (splitString [8]);
+							float theta = (Mathf.Sqrt ((xRotation * xRotation) + (yRotation * yRotation) + (zRotation * zRotation)) * (180 / Mathf.PI));
+							Vector3 axis = new Vector3 (-xRotation, yRotation, -zRotation);
+							Quaternion correctionRotation = Quaternion.AngleAxis (theta, axis);
+
+							correctionMarker.transform.localRotation = correctionRotation;
+							correctionChild.transform.parent = correctionMarker.transform;
+							correctionChild.transform.position = bot.transform.position;
+							correctionChild.transform.rotation = bot.transform.rotation;
+
+							correctionMarker.transform.position = selectedMarker.transform.position;
+							correctionMarker.transform.rotation = selectedMarker.transform.rotation;
+
+							bot.transform.position = correctionChild.transform.position;
+							bot.transform.rotation = correctionChild.transform.rotation;
+
+							//correctionMarker.transform.localScale = new Vector3 (-1, -1, -1);
+							//Vector3 correctionPosition = transform.InverseTransformPoint(newposition);
+							//Vector3 correctionPosition = newposition;
+							Debug.Log (newposition);
+								//(float.Parse (splitString [3]), -(float.Parse (splitString [4])), (float.Parse (splitString [5]) + 95.0f)));
+							//Debug.Log (correctionPosition);
+							//correctionMarker.transform.localPosition = correctionPosition;
+
+							/*float xRotation = float.Parse (splitString [6]);
+							float yRotation = float.Parse (splitString [7]);
+							float zRotation = float.Parse (splitString [8]);
+							float theta = (Mathf.Sqrt ((xRotation * xRotation) + (yRotation * yRotation) + (zRotation * zRotation)) * (180 / Mathf.PI));
+							Vector3 axis = new Vector3 (-xRotation, yRotation, -zRotation);
+							Quaternion correctionRotation = Quaternion.Inverse(Quaternion.AngleAxis (theta, axis));
+
+
+							correctionMarker.transform.localRotation = correctionRotation;
+							correctionMarker.transform.localPosition = correctionPosition;*/
+
+							Debug.Log ("Moving bot");
+
+							//bot.transform.position = correctionChild.transform.position;
+							//bot.transform.rotation = correctionChild.transform.rotation;
+							// hämta markörens tvec rvec
+							// beräkna invers
+							// sätt child local till invers
+							// sätt robot transform till child transform
+
+
+						}
+
 				}
                 else if (splitString[1] == "0" || splitString[1] == "1" || splitString[1] == "MOVE" || splitString[1] == "TURN")
                 {  //Movement handler
