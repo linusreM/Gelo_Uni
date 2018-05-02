@@ -1233,8 +1233,9 @@ MonoBehaviour:
   server: {fileID: 1634167129}
   busy: 0
   mapping: 1
+  newMarker: 1
   aruco: {fileID: 1247546051966670, guid: b743cf40cc80b48bc91df444d9932359, type: 2}
-  aruco1: {fileID: 49868051}
+  fall: 1
 --- !u!4 &1254974940
 Transform:
   m_ObjectHideFlags: 0
@@ -1274,6 +1275,8 @@ MonoBehaviour:
   corners: []
   activateFlag: 0
   exitFlag: 0
+  timeFlag: 0
+  time: 0
 --- !u!195 &1254974942
 NavMeshAgent:
   m_ObjectHideFlags: 0

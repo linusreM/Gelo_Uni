@@ -5,6 +5,7 @@ using UnityEngine;
 
 
 
+
 public class move : MonoBehaviour
 {
     //private Vector3 position;
@@ -21,7 +22,7 @@ public class move : MonoBehaviour
 	public GameObject correctionChild;
 	public GameObject aruco;
 	private List<GameObject> arucos;
-
+    public float fall;
 
 
     //Vector3 basePosition;
@@ -163,14 +164,17 @@ public class move : MonoBehaviour
                     left.transform.localPosition = new Vector3(-(float.Parse(splitString[6]) / divisor), 0.0f, 0.0f);
                     forward.transform.localPosition = new Vector3(0.0f, 0.0f, float.Parse(splitString[4]) / divisor);
                     back.transform.localPosition = new Vector3(0.0f, 0.0f, -(float.Parse(splitString[5]) / divisor));
-
+                    float forwardStrength = DistanceToStrength(float.Parse(splitString[4]), fall);
+                    float backStrength = DistanceToStrength(float.Parse(splitString[5]), fall);
+                    float leftStrength = DistanceToStrength(float.Parse(splitString[6]), fall);
+                    float rightStrength = DistanceToStrength(float.Parse(splitString[7]), fall);
                     Vector2 shForward = new Vector2(forward.transform.position.x, forward.transform.position.z);
                     Vector2 shBack = new Vector2(back.transform.position.x, back.transform.position.z);
                     Vector2 shLeft = new Vector2(left.transform.position.x, left.transform.position.z);
                     Vector2 shRight = new Vector2(right.transform.position.x, right.transform.position.z);
 
                     if (mapping)
-                        cShader.RunShader4(shForward, shBack, shLeft, shRight);
+                        cShader.RunShader4(shForward, shBack, shLeft, shRight, forwardStrength, backStrength, leftStrength, rightStrength);
 
 						if (splitString[2] == "0")
                     {
@@ -188,4 +192,11 @@ public class move : MonoBehaviour
 		    }
 	    }
 	}
+    private float DistanceToStrength(float distance, float falloff)
+    {
+        float ret = Mathf.Exp(-(distance*falloff));
+        if (ret > 1)
+            ret = 1;
+        return ret;
+    }
 }
