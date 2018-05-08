@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\aruco.cs" />
+     <Compile Include="Assets\Scripts\ButtonHandler.cs" />
      <Compile Include="Assets\Scripts\CalcPath.cs" />
      <Compile Include="Assets\Scripts\Compshader.cs" />
      <Compile Include="Assets\Scripts\CustomCommand.cs" />
@@ -59,6 +60,7 @@
      <Compile Include="Assets\Scripts\LocalNavMeshBuilder.cs" />
      <Compile Include="Assets\Scripts\Marker.cs" />
      <Compile Include="Assets\Scripts\move.cs" />
+     <Compile Include="Assets\Scripts\MoveCamera.cs" />
      <Compile Include="Assets\Scripts\MoveToClickPoint.cs" />
      <Compile Include="Assets\Scripts\NavMeshSourceTag.cs" />
      <Compile Include="Assets\Scripts\PGrid.cs" />

@@ -26,6 +26,7 @@ public class MoveToClickPoint : MonoBehaviour {
 
 	void Update() {
 		
+		agent.nextPosition = Mover.bot.transform.position;
 
 		if(Input.GetKeyUp("c")){
 			activateFlag = true;
