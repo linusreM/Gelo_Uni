@@ -23,6 +23,7 @@ public class move : MonoBehaviour
 	public GameObject aruco;
 	private List<GameObject> arucos;
     public float fall;
+    public int sequenceNumber = 0;
 
 
     //Vector3 basePosition;
@@ -169,11 +170,19 @@ public class move : MonoBehaviour
 							cShader.RunShader4 (shForward, shBack, shLeft, shRight, forwardStrength, backStrength, leftStrength, rightStrength);
 
 						if (splitString [2] == "0") {
-							basePosition.transform.position = bot.transform.position;
-							basePosition.transform.rotation = bot.transform.rotation;
-							busy = false;
-							Debug.Log ("Finished movement, position locked!");
-							Debug.Log (splitString [0] + " sent " + splitString [1] + ", More:" + splitString [2] + ", Travel: " + splitString [3] + ", with: " + splitString [4] + "F, " + splitString [5] + "B, " + splitString [6] + "L, " + splitString [7] + "R");
+                            if (sequenceNumber <= int.Parse(splitString[0]))
+                            {
+                                basePosition.transform.position = bot.transform.position;
+                                basePosition.transform.rotation = bot.transform.rotation;
+                                
+                                Debug.Log("Finished movement, position locked!");
+                                Debug.Log(splitString[0] + " sent " + splitString[1] + ", More:" + splitString[2] + ", Travel: " + splitString[3] + ", with: " + splitString[4] + "F, " + splitString[5] + "B, " + splitString[6] + "L, " + splitString[7] + "R");
+                                sequenceNumber = int.Parse(splitString[0]) + 1;
+
+                                busy = false;
+                            }
+                            server.SendData("ACK");
+							
 						}
 					} else {
 						Debug.Log ("Unrecognized Command: " + splitString [1] + ", From: " + splitString [0]);
