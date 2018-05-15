@@ -37,7 +37,7 @@ public class Server : MonoBehaviour
     { 
         Init(); //Start UDP receive thread
     }
-
+    /*
     void OnGUI() //Show received network packages, for debugging purposes
     {
         Rect rectObj = new Rect(40, 10, 200, 400);
@@ -47,7 +47,7 @@ public class Server : MonoBehaviour
             + "\nUnhandled Messages: \n" + allReceivedUDPPackets
             + "\nLast Packet: \n" + lastReceivedUDPPacket
             , style);
-    }
+    }*/
 
     private void Init()
     {
