@@ -30,6 +30,8 @@ public class move : MonoBehaviour
 	void Start()
 	{
 		arucos = new List<GameObject>();
+		correctionMarker = new GameObject ();
+		correctionChild = new GameObject ();
 
 
 	}
@@ -79,8 +81,10 @@ public class move : MonoBehaviour
 						} else {
 							// skapa child på aktuell markör
 							GameObject selectedMarker = arucos.Find (x => x.GetComponent<Marker> ().id == splitString [2]);
-							correctionMarker = new GameObject ();
-							correctionChild = new GameObject ();
+
+							//correctionMarker = new GameObject ();
+							//correctionChild = new GameObject ();
+
 							//Debug.Log(arucos.Find(x => x.GetComponent<Marker>().id == splitString[2]).transform.position);
 							//correctionMarker.transform.parent = (arucos.Find(x => x.GetComponent<Marker>().id == splitString[2])).transform;
 							//correctionChild = new GameObject ();

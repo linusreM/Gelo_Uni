@@ -14,6 +14,8 @@ public class MoveToClickPoint : MonoBehaviour {
 	public bool exitFlag;
 	public bool timeFlag;
 	public float time;
+	public LineRenderer line;
+
 
 
 	void Start() {
@@ -22,11 +24,19 @@ public class MoveToClickPoint : MonoBehaviour {
 
 		time = 0;
 		timeFlag = true;
+
+		line = gameObject.AddComponent<LineRenderer> ();
+		line.material = new Material (Shader.Find ("Standard"));
+		line.material.EnableKeyword ("_EMISSION");
+		line.material.SetColor ("_EmissionColor", Color.yellow);
+		line.widthMultiplier = 1.0f;
+		line.positionCount = 0;
 	}
 
 	void Update() {
 		
 		agent.nextPosition = Mover.bot.transform.position;
+
 
 		if(Input.GetKeyUp("c")){
 			activateFlag = true;
@@ -34,6 +44,10 @@ public class MoveToClickPoint : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.Escape)){
 			activateFlag = false;
+		}
+
+		if (cornerCount == corners.Length && !Mover.busy) {
+			line.positionCount = 0;
 		}
 		
 
@@ -51,10 +65,12 @@ public class MoveToClickPoint : MonoBehaviour {
 					corners = path.corners;
 					cornerCount = 1;
 					activateFlag = false;
+					line.positionCount = corners.Length;
 
 
-					for (int i = 0; i < path.corners.Length - 1; i++) {
-						Debug.DrawLine (path.corners [i], path.corners [i + 1], Color.red, 10);
+					for (int i = 0; i < corners.Length; i++) {
+						line.SetPosition (i, corners [i]);
+						//Debug.DrawLine (path.corners [i], path.corners [i + 1], Color.red, 10);
 					}
 				}
 			}
@@ -96,6 +112,7 @@ public class MoveToClickPoint : MonoBehaviour {
 					}
 				}
 			}
+
 		}
 	}
 }
