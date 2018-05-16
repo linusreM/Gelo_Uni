@@ -118,7 +118,7 @@ public class Compshader : MonoBehaviour {
         shader.SetTexture(kernelHandle, "res", tex);
         shader.SetTexture(kernelHandle, "buf", buf);
         shader.Dispatch(kernelHandle, texSize / 4, texSize / 4, 1);
-        Debug.Log("Ran compute shader");
+        
 
         Graphics.Blit(tex, buf);
     }

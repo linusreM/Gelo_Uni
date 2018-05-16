@@ -21,7 +21,7 @@ public class move : MonoBehaviour
 	public GameObject correctionMarker;
 	public GameObject correctionChild;
 	public GameObject aruco;
-	private List<GameObject> arucos;
+	public List<GameObject> arucos;
     public float fall;
     public int sequenceNumber = 0;
 
