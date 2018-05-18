@@ -1523,7 +1523,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 147.07, y: 1452.5}
+  m_AnchoredPosition: {x: 147.06982, y: 1452.5}
   m_SizeDelta: {x: 301.45, y: 2764}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &671780887
@@ -2615,6 +2615,7 @@ MonoBehaviour:
   correctionChild: {fileID: 0}
   aruco: {fileID: 1247546051966670, guid: b743cf40cc80b48bc91df444d9932359, type: 2}
   fall: 0.0005
+  sequenceNumber: 0
 --- !u!4 &1254974940
 Transform:
   m_ObjectHideFlags: 0
@@ -2656,6 +2657,7 @@ MonoBehaviour:
   exitFlag: 0
   timeFlag: 0
   time: 0
+  line: {fileID: 0}
 --- !u!195 &1254974942
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3028,7 +3030,7 @@ MonoBehaviour:
   div_y: 0
   speed: 1
   strength: 1
-  size: 2
+  size: 1
 --- !u!114 &1601224863
 MonoBehaviour:
   m_ObjectHideFlags: 0
