@@ -16,7 +16,7 @@ public class Compshader : MonoBehaviour {
     public float speed = 1;
     int dir;
     public float strength;
-    public float size; 
+    public float size;
     // Use this for initialization
     void Awake () {
         tex = new RenderTexture(texSize, texSize, 24);
@@ -118,7 +118,7 @@ public class Compshader : MonoBehaviour {
         shader.SetTexture(kernelHandle, "res", tex);
         shader.SetTexture(kernelHandle, "buf", buf);
         shader.Dispatch(kernelHandle, texSize / 4, texSize / 4, 1);
-        Debug.Log("Ran compute shader");
+        //Debug.Log("Ran compute shader");
 
         Graphics.Blit(tex, buf);
     }
