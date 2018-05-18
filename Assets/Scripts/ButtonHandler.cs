@@ -7,7 +7,7 @@ public class ButtonHandler : MonoBehaviour {
     public MoveToClickPoint moveClick;
     public MoveCamera moveCam;
     public CustomCommand commandInput;
-
+    public OrderPanel order;
 
 
     public void ClickToMove()
@@ -26,6 +26,10 @@ public class ButtonHandler : MonoBehaviour {
     public void MappingOn()
     {
         mover.mapping = !mover.mapping;
+    }
+    public void ShowOrderPanel()
+    {
+        order.activateFlag = !order.activateFlag;
     }
 
 }

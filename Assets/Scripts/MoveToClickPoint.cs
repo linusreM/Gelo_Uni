@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using System.Linq;
 
 public class MoveToClickPoint : MonoBehaviour {
 	NavMeshAgent agent;
@@ -16,7 +18,8 @@ public class MoveToClickPoint : MonoBehaviour {
 	public float time;
 	public LineRenderer line;
 	public NavMeshPath path;
-
+   
+    
 
 
 	void Start() {
@@ -122,7 +125,7 @@ public class MoveToClickPoint : MonoBehaviour {
 		}
 	}
 
-	void GetPath(Vector3 point){
+	public void GetPath(Vector3 point){
 		NavMeshPath path = new NavMeshPath ();
 
 		agent.CalculatePath (point, path);
@@ -135,8 +138,26 @@ public class MoveToClickPoint : MonoBehaviour {
 			line.SetPosition (i, corners [i]);
 		}
 	}
+    public void GetPath(Vector3 point, Vector3 look)
+    {
+        NavMeshPath path = new NavMeshPath();
 
-	void FollowPath(NavMeshPath path){
+        agent.CalculatePath(point, path);
+        corners = path.corners;
+        List<Vector3> tempList = corners.ToList();
+        tempList.Add(look);
+        corners = tempList.ToArray();
+        cornerCount = 1;
+        activateFlag = false;
+        line.positionCount = corners.Length;
+
+        for (int i = 0; i < corners.Length; i++)
+        {
+            line.SetPosition(i, corners[i]);
+        }
+    }
+
+    public void FollowPath(NavMeshPath path){
 		if (corners.Length != 0 && cornerCount <= corners.Length - 1) {
 
 			if (time > 0.1) {
