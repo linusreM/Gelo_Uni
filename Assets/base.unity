@@ -2738,7 +2738,7 @@ MonoBehaviour:
   correctionChild: {fileID: 0}
   aruco: {fileID: 1022831749567982, guid: a22e6626e9c1b92478b4bd002368ea7e, type: 2}
   arucos: []
-  fall: 0.0005
+  fall: 0.0009
   sequenceNumber: 0
 --- !u!4 &1254974940
 Transform:
@@ -3153,8 +3153,8 @@ MonoBehaviour:
   div_x: 0
   div_y: 0
   speed: 1
-  strength: 1
-  size: 1
+  strength: 1.5
+  size: 2
 --- !u!114 &1601224863
 MonoBehaviour:
   m_ObjectHideFlags: 0

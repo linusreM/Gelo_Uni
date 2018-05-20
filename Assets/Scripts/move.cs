@@ -79,6 +79,7 @@ public class move : MonoBehaviour
 							arucos.Add (Instantiate (aruco, qr.transform.position, qr.transform.rotation));
 							arucos.Last ().GetComponent<Marker> ().id = (splitString [2]);
 						} else {
+                            /*==========>
 							// skapa child på aktuell markör
 							GameObject selectedMarker = arucos.Find (x => x.GetComponent<Marker> ().id == splitString [2]);
 
@@ -120,6 +121,7 @@ public class move : MonoBehaviour
 							//Debug.Log (correctionPosition);
 							//correctionMarker.transform.localPosition = correctionPosition;
 
+                            <========*/
 							/*float xRotation = float.Parse (splitString [6]);
 							float yRotation = float.Parse (splitString [7]);
 							float zRotation = float.Parse (splitString [8]);
@@ -139,7 +141,7 @@ public class move : MonoBehaviour
 							// beräkna invers
 							// sätt child local till invers
 							// sätt robot transform till child transform
-
+                            
 
 						}
 

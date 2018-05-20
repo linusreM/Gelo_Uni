@@ -40,17 +40,28 @@ public class OrderPanel : MonoBehaviour {
                     //markerButton.GetComponent<Button>().GetComponent<Text>().text = mark.GetComponent<Marker>().id;
                     tempButton.GetComponentInChildren<Text>().text = "item " + mark.GetComponent<Marker>().id;
                     Vector3 markerPoint = mark.transform.GetChild(0).transform.position;
-                    mark.transform.GetChild(0).transform.position += new Vector3(0, 0, 1.0f / 25.6f);
+                    mark.transform.GetChild(0).transform.localPosition += new Vector3(0, 0, 1.0f / 25.6f);
                     Vector3 lookPoint = mark.transform.GetChild(0).transform.position;
+                    lookPoint.y = 0;
+                    markerPoint.y = 0;
                     tempButton.onClick.AddListener(() => MarkerPressed(markerPoint, lookPoint));
-                    loaded = true;
                 }
+                loaded = true;
 
             }
         }
         else
         {
             transform.position = disabledPosition;
+            if (loaded)
+            {
+                foreach(Transform child in ParentPanel.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                    loaded = false;
+                }
+
+            }
         }
 	}
 
